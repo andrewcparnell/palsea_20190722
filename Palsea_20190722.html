@@ -3,7 +3,7 @@
   <head>
     <title>Improving chronological models for estimating sea-level rise</title>
     <meta charset="utf-8">
-    <meta name="author" content="Andrew C Parnell (+ Andy Kemp, Niamh Cahill, Ben Horton, …)" />
+    <meta name="author" content="Andrew C Parnell (+ Andy Kemp, Niamh Cahill, Ben Horton, Roland Gehrels, …)" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/maynooth.css" rel="stylesheet" />
     <link href="libs/remark-css/maynooth-fonts.css" rel="stylesheet" />
@@ -19,7 +19,7 @@ class: title-slide, center, middle
 
 &lt;br&gt; 
 
-### Andrew C Parnell (+ Andy Kemp, Niamh Cahill, Ben Horton, ...)
+### Andrew C Parnell (+ Andy Kemp, Niamh Cahill, Ben Horton, Roland Gehrels,...)
 
 &lt;br&gt;
 
@@ -190,7 +190,8 @@ SlugOut = with(Sluggan,
 
 ```r
 plot(SlugOut, dateHeight = 10) + 
-  labs(x = 'Age (cal BP)', y = 'Depth (cm)')
+  labs(x = 'Age (cal BP)', y = 'Depth (cm)',
+       nudgeX = 500)
 ```
 
 &lt;img src="Palsea_20190722_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
@@ -314,7 +315,7 @@ class: big
 
 class: center, middle
 
-Many thanks to collaborators: Niamh Cahill, John Haslett, Robin Edwards, Ben Horton, Andy Kemp
+Many thanks to collaborators: Niamh Cahill, John Haslett, Robin Edwards, Ben Horton, Andy Kemp, Roland Gehrels, ...
 
 This work was supported by a Science Foundation Ireland Career Development Award grant 17/CDA/4695 and an SFI Research Centre grant 12/RC/2289_P2
 

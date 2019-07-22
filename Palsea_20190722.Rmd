@@ -1,7 +1,7 @@
 ---
 title: "Improving chronological models for estimating sea-level rise"
 author: 
-  - "Andrew C Parnell (+ Andy Kemp, Niamh Cahill, Ben Horton, ...)"
+  - "Andrew C Parnell (+ Andy Kemp, Niamh Cahill, Ben Horton, Roland Gehrels, ...)"
 output:
   xaringan::moon_reader:
     css: [default, maynooth, maynooth-fonts]
@@ -27,7 +27,7 @@ class: title-slide, center, middle
 
 <br> 
 
-### Andrew C Parnell (+ Andy Kemp, Niamh Cahill, Ben Horton, ...)
+### Andrew C Parnell (+ Andy Kemp, Niamh Cahill, Ben Horton, Roland Gehrels,...)
 
 <br>
 
@@ -208,7 +208,8 @@ SlugOut = readRDS(file = 'SlugganChron.rds')
 
 ```{r, fig.height=5}
 plot(SlugOut, dateHeight = 10) + 
-  labs(x = 'Age (cal BP)', y = 'Depth (cm)')
+  labs(x = 'Age (cal BP)', y = 'Depth (cm)',
+       nudgeX = 500)
 ```
 
 ---
@@ -331,7 +332,7 @@ class: big
 
 class: center, middle
 
-Many thanks to collaborators: Niamh Cahill, John Haslett, Robin Edwards, Ben Horton, Andy Kemp
+Many thanks to collaborators: Niamh Cahill, John Haslett, Robin Edwards, Ben Horton, Andy Kemp, Roland Gehrels, ...
 
 This work was supported by a Science Foundation Ireland Career Development Award grant 17/CDA/4695 and an SFI Research Centre grant 12/RC/2289_P2
 
