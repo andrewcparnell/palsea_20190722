@@ -221,6 +221,8 @@ class: big
 
 - Obtain sedimentation and accumulation rates (with uncertainties)
 
+- Thickness errors
+
 - Identify influential dates and depths
 
 - Non-parametric phase estimation
