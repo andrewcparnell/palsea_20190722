@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Improving chronological models for estimating sea-level rise</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Andrew C Parnell (+ Andy Kemp, Niamh Cahill, Ben Horton, …)" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/maynooth.css" rel="stylesheet" />
+    <link href="libs/remark-css/maynooth-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+class: title-slide, center, middle
+
+## Improving chronological models for estimating sea-level rise
+
+&lt;br&gt; 
+
+### Andrew C Parnell (+ Andy Kemp, Niamh Cahill, Ben Horton, ...)
+
+&lt;br&gt;
+
+### 22nd July 2019
+
+---
+
+class: big
+
+# What's a chronology model?
+
+Usual set up is:
+- Have a core
+- Some radiocarbon dates with depths
+- Know the calibration curve that applies to these dates
+- Might know the age of the top of the core (or a constraint on it)
+- Might have some other types of dates as well
+
+A chronology model will then give you estimated ages for any depth you choose in the core.
+
+---
+
+# A brief history of chronology models
+
+&lt;img src="p1.jpg" height="500" /&gt;
+
+---
+
+# A brief history of chronology models
+
+&lt;img src="p2.jpg" height="500" /&gt;
+
+---
+
+
+# A brief history of chronology models
+
+&lt;img src="p3.jpg" height="500" /&gt;
+
+---
+
+
+# A brief history of chronology models
+
+&lt;img src="p4.jpg" height="500" /&gt;
+
+---
+
+
+# A brief history of chronology models
+
+&lt;img src="p5.jpg" height="500" /&gt;
+
+---
+
+
+# A brief history of chronology models
+
+&lt;img src="p6.jpg" height="500" /&gt;
+
+---
+
+# Enter Bchron
+
+&lt;img src="p7a.gif" height="500" /&gt;
+
+---
+
+# Enter Bchron
+
+&lt;img src="p7.jpg" height="500" /&gt;
+
+---
+
+# Sluggan Moss
+
+&lt;img src="p8.jpg" height="500" /&gt;
+
+---
+
+# New Jersey
+
+![](age_depth_NY.jpg)&lt;!-- --&gt;
+
+---
+
+# Bchron vs **Bacon** vs Oxcal
+
+&lt;img src="Bacon_plot.jpg" height="500" /&gt;
+
+---
+
+# Bchron vs Bacon vs **Oxcal**
+
+&lt;img src="Oxcal_plot.jpg" height="500" /&gt;
+
+---
+
+class: big
+
+# Why should I care which model I use?
+
+- To create a quantitative sea level reconstruction, you need a chronology model which includes uncertainty in its output
+
+- The reconstructions of sea level will be sensitive to the choice of chronology model used
+
+- If you’re using a proper reconstruction method, then the uncertainties will flow through from the chronology into the reconstruction
+
+- If your uncertainties are too small, then the sea level reconstruction will be unrealistically precise and will not stand up to validation
+
+---
+
+class: big
+
+# How to use Bchron
+
+1. Get your data into the right format
+1. Run `Bchronology` to get an age-depth model
+1. Summarise or plot to get what you need
+
+Everything is open source so you have full access and customization of all output and plots
+
+Some extra features specifically for sea level work
+
+---
+
+class: big
+
+# Bchron demo
+
+
+```r
+library(Bchron)
+data("Sluggan")
+head(Sluggan, 10)
+```
+
+```
+##         id ages ageSds position thickness calCurves
+## 1  UB-201A  985     45     44.5         5  intcal13
+## 2  UB-211A 1225     65     49.5         5  intcal13
+## 3   UB-437 1635     75     69.0         2  intcal13
+## 4   UB-748 2130     45    102.0         4  intcal13
+## 5   UB-438 2930     85    125.0         2  intcal13
+## 6   UB-439 3945     85    165.0         2  intcal13
+## 7   UB-440 4180     90    185.0         2  intcal13
+## 8  UB-219D 4500     80    232.5         5  intcal13
+## 9  UB-219B 4520     75    232.5         5  intcal13
+## 10 UB-219A 4650     75    232.5         5  intcal13
+```
+
+```r
+SlugOut = with(Sluggan, 
+               Bchronology(ages = ages,
+                           ageSds = ageSds, 
+                           calCurves = calCurves,
+                           positions = position, 
+                           positionThicknesses = thickness,
+                           ids = id, 
+                           predictPositions = seq(44, 518, by = 1)))
+```
+
+
+---
+
+# Plotting output
+
+
+```r
+plot(SlugOut, dateHeight = 10) + 
+  labs(x = 'Age (cal BP)', y = 'Depth (cm)')
+```
+
+&lt;img src="Palsea_20190722_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: big
+
+# Extra Bchron features
+
+- Ability to calibrate thousands of dates in seconds
+
+- Obtain sedimentation and accumulation rates (with uncertainties)
+
+- Identify influential dates and depths
+
+- Non-parametric phase estimation
+
+- Simple rate and acceleration estimation for RSL data
+
+- User-defined calibration curves
+
+---
+
+# `BchronRSL` demo
+
+
+```r
+data("TestRSLData")
+head(TestRSLData, 10)
+```
+
+```
+##    Depth     RSL Sigma
+## 1    3.5 -0.0267   0.2
+## 2    4.5 -0.0333   0.2
+## 3    5.5 -0.0396   0.2
+## 4    6.5 -0.0512   0.2
+## 5    7.5 -0.0610   0.2
+## 6    8.5 -0.0701   0.2
+## 7    9.5 -0.0823   0.2
+## 8   10.5 -0.0896   0.2
+## 9   36.0 -0.3449   0.2
+## 10  39.0 -0.3749   0.2
+```
+
+```r
+RSLrun = with(TestRSLData, 
+              BchronRSL(RSLchron,
+                        RSLmean = RSL,
+                        RSLsd = Sigma,
+                        degree = 3))
+```
+
+---
+
+# Plot output of fits
+
+
+
+
+
+```r
+plot(RSLrun, type = 'RSL') + ggtitle('Fitted cubic RSL curve')
+```
+
+&lt;img src="Palsea_20190722_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Plot output of rates
+
+
+```r
+plot(RSLrun, type = 'rate') + ggtitle('Rate of RSL change')
+```
+
+&lt;img src="Palsea_20190722_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: big
+
+# What’s next for chronology models?
+
+- Creation of age-depths models for multiple cores with overlapping dating measurements
+
+- Better outlier identification
+
+- Adding in different date formats, e.g. Pb-210
+
+- Creating sea level reconstruction (via e.g. transfer functions) and chronology models simultaneously
+
+- Adding in mechanistic models of sedimentation
+
+**What would other people like?**
+
+---
+
+# Next main job - software
+
+&lt;img src="bhm_plot.jpg" height="500" /&gt;
+
+---
+
+class: big
+
+# Conclusions
+
+- Chronological models are not simple to build, but there are some good options out there
+
+- Bchron and Bacon are R packages, with open-source code and full scripting capability
+
+- Lots of extra features which may be useful for certain jobs
+
+- Bchron is completely driven by the community and if people want more features then they can request them!
+
+---
+
+class: center, middle
+
+Many thanks to collaborators: Niamh Cahill, John Haslett, Robin Edwards, Ben Horton, Andy Kemp
+
+This work was supported by a Science Foundation Ireland Career Development Award grant 17/CDA/4695 and an SFI Research Centre grant 12/RC/2289_P2
+
+&lt;img src="SFI_logo.jpg" height="100" style="display: block; margin: auto;" /&gt;&lt;img src="Insight_logo.jpg" height="100" style="display: block; margin: auto;" /&gt;
+
+
+# Questions?
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
