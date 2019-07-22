@@ -23,6 +23,8 @@ auf::packages('tidyverse', 'Bchron', 'ggridges', 'ggforce')
 
 class: title-slide, center, middle
 
+<br>
+
 ## Improving chronological models for estimating sea-level rise
 
 <br> 
@@ -33,6 +35,9 @@ class: title-slide, center, middle
 
 ### 22nd July 2019
 
+<br>
+
+[andrewcparnell.github.io/palsea_20190722/](andrewcparnell.github.io/palsea_20190722/)
 ---
 
 class: big
